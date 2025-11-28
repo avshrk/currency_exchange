@@ -1,0 +1,6 @@
+
+alias CurrencyExchange.Accounts
+alias CurrencyExchange.Accounts.Account
+alias CurrencyExchange.Currencies
+alias CurrencyExchange.Transactions
+alias CurrencyExchange.Transactions.Transaction
