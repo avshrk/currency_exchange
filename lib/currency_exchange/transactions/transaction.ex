@@ -8,27 +8,25 @@ defmodule CurrencyExchange.Transactions.Transaction do
 
   schema "transactions" do
     field :currency, :string
-    field :currency_pair, :string
     field :debit, :integer
     field :credit, :integer
-    field :rate, :float
     field :balance, :integer
+    field :event_id, :string
 
     belongs_to :user, User
-    belongs_to :parent, Transaction, foreign_key: :parent_id
-    has_one :child, Transaction, foreign_key: :parent_id
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime, updated_at: false)
   end
 
+  @fields [:currency, :debit, :credit, :user_id, :balance, :event_id]
 
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:currency, :currency_pair, :debit, :credit, :rate, :user_id, :parent_id])
-    |> validate_required([:balance, :currency, :user_id])
+    |> cast(attrs, @fields)
+    |> validate_required([:balance, :currency, :user_id, :event_id])
     |> validate_inclusion(:currency, Currencies.list_all())
+    |> validate_number(:balance, greater_than_or_equal_to: 0)
     |> validate_debit_credit()
-    |> foreign_key_constraint(:parent_id)
     |> foreign_key_constraint(:user_id)
   end
 
@@ -43,11 +41,11 @@ defmodule CurrencyExchange.Transactions.Transaction do
       not is_nil(debit) and not is_nil(credit) ->
         add_error(changeset, :base, "only one of debit or credit must be provided")
 
-      not is_nil(debit) and debit < 1 ->
-        add_error(changeset, :debit, "Debit must be created than 0")
+      is_nil(credit) and debit < 1 ->
+        add_error(changeset, :debit, "Debit must be greater than 0")
 
-      not is_nil(credit) and credit < 1 ->
-        add_error(changeset, :credit, "Debit must be created than 0")
+      is_nil(debit) and credit < 1 ->
+        add_error(changeset, :credit, "Credit must be greater than 0")
 
       true ->
         changeset

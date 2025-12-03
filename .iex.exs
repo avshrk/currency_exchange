@@ -1,6 +1,6 @@
 
-alias CurrencyExchange.Accounts
-alias CurrencyExchange.Accounts.Account
-alias CurrencyExchange.Currencies
-alias CurrencyExchange.Transactions
-alias CurrencyExchange.Transactions.Transaction
+alias CurrencyExchange.Accounts, as: Accnts
+alias CurrencyExchange.Accounts.Account, as: Accnt
+alias CurrencyExchange.Currencies, as: Curr
+alias CurrencyExchange.Transactions, as: Trans
+alias CurrencyExchange.Transactions.Transaction, as: Tran

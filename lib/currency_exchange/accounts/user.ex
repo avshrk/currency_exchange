@@ -8,7 +8,7 @@ defmodule CurrencyExchange.Accounts.User do
 
     has_many :transactions, CurrencyExchange.Transactions.Transaction
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime, updated_at: false)
   end
 
   @doc false

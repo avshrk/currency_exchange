@@ -3,7 +3,7 @@ defmodule CurrencyExchange.AccountsFixtures do
   Accounts test helper functions.
   """
 
-  def unique_user_email, do: "email#{System.unique_integer([:positive])}"
+  def unique_user_email, do: "#{System.unique_integer([:positive])}@email.com"
   def unique_user_name, do: "name#{System.unique_integer([:positive])}"
 
   def user_fixture(attrs \\ %{}) do
