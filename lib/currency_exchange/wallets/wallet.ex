@@ -1,43 +1,48 @@
 defmodule CurrencyExchange.Wallets.Wallet do
-  use Ecto.Schema
-  import Ecto.Changeset
+  use Agent
 
-  alias CurrencyExchange.Transactions.Transaction
-  alias CurrencyExchange.Currencies
+  alias CurrencyExchange.Wallets.WalletRegistry
 
-  @primary_key false
-  embedded_schema  do
-    field :currency, :string
-    field :balance, :integer
-    field :user_id, :id
+  def start_link(user_id) do
+    Agent.start_link(fn -> %{} end, name: via(user_id))
   end
 
-  def build(attrs) do
-    %__MODULE__{}
-    |> changeset(attrs)
-    |> apply_action(:insert)
+  def upsert(user_id, currency, amount) do
+    Agent.update(via(user_id), &Map.put(&1, currency, amount))
   end
 
-  def changeset(wallet, attrs) do
-    wallet
-    |> cast(attrs, [:currency, :balance, :user_id])
-    |> validate_required([:currency, :balance, :user_id])
-    |> validate_inclusion(:currency, Currencies.list_all())
+  def all(user_id) do
+    Agent.get(via(user_id), & &1)
   end
 
-  def from_transaction(%{currency: currency, balance: balance, user_id: user_id}) do
-    %__MODULE__{
-      currency: currency,
-      balance: balance,
-      user_id: user_id
-    }
+  def by_currency(user_id, currency) do
+    Agent.get(via(user_id), & &1[currency])
   end
 
-  def from_transaction(%Transaction{} = tx) do
-    from_transaction(%{
-      currency: tx.currency,
-      balance: tx.balance,
-      user_id: tx.user_id
-    })
+  def currency_exists?(user_id, currency) do
+    by_currency(user_id, currency) != nil
+  end
+
+  def empty?(user_id) do
+    all(user_id) === %{}
+  end
+
+  def highest_amount_currency(user_id) do
+    Agent.get(via(user_id), &Enum.max_by(&1, fn {_k, v } -> v end ))
+  end
+
+  def all_currencies(user_id) do
+    Agent.get(via(user_id), &Map.keys(&1))
+  end
+
+  def user_exists?(user_id) do
+    case Registry.lookup(WalletRegistry, user_id) do
+      [] -> false
+      _ -> true
+    end
+  end
+
+  defp via(user_id) do
+    {:via, Registry, {WalletRegistry, user_id}}
   end
 end

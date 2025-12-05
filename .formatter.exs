@@ -1,5 +1,57 @@
 [
-  import_deps: [:ecto, :ecto_sql, :phoenix],
+  import_deps: [
+    :ecto,
+    :ecto_sql,
+    :phoenix,
+    :phoenix_ecto,
+    :absinthe,
+    :absinthe_plug,
+    :absinthe_phoenix
+  ],
   subdirectories: ["priv/*/migrations"],
-  inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}", "priv/*/seeds.exs"]
+  inputs: [
+    "*.{ex,exs}",
+    "{config,lib,test}/**/*.{ex,exs}",
+    "priv/*/seeds.exs"
+  ],
+  locals_without_parens: [
+    # Absinthe DSL
+    arg: 2,
+    arg: 3,
+    config: 1,
+    config: 2,
+    directive: 2,
+    directive: 3,
+    enum: 1,
+    enum: 2,
+    enum: 3,
+    field: 1,
+    field: 2,
+    field: 3,
+    import_fields: 1,
+    import_types: 1,
+    input_object: 2,
+    interface: 2,
+    middleware: 1,
+    middleware: 2,
+    mutation: 1,
+    mutation: 2,
+    object: 1,
+    object: 2,
+    object: 3,
+    parse: 1,
+    resolve: 1,
+    resolve: 2,
+    scalar: 2,
+    scalar: 3,
+    serialize: 1,
+    subscription: 1,
+    subscription: 2,
+    types: 1,
+    union: 2,
+    value: 1,
+    value: 2,
+    query: 1,
+    query: 2
+  ]
 ]

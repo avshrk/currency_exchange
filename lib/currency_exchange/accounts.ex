@@ -7,6 +7,7 @@ defmodule CurrencyExchange.Accounts do
   alias CurrencyExchange.Repo
 
   alias CurrencyExchange.Accounts.User
+  alias CurrencyExchange.Wallets
 
   def list_users do
     Repo.all(User)
@@ -18,5 +19,12 @@ defmodule CurrencyExchange.Accounts do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+    |> create_user_wallet()
   end
+
+  defp create_user_wallet({:ok, %User{id: user_id}}) do
+    Wallets.create(user_id)
+  end
+
+  defp create_user_wallet(error), do: error
 end
