@@ -8,9 +8,9 @@ defmodule CurrencyExchange.Transactions.Transaction do
 
   schema "transactions" do
     field :currency, :string
-    field :debit, :integer
-    field :credit, :integer
-    field :balance, :integer
+    field :debit, :string
+    field :credit, :string
+    field :balance, :string
     field :event_id, :string
 
     belongs_to :user, User
@@ -25,26 +25,51 @@ defmodule CurrencyExchange.Transactions.Transaction do
     |> cast(attrs, @fields)
     |> validate_required([:balance, :currency, :user_id, :event_id])
     |> validate_inclusion(:currency, Currencies.list_all())
-    |> validate_number(:balance, greater_than_or_equal_to: 0)
-    |> validate_debit_credit()
+    |> validate_balance_value()
+    |> validate_debit_credit_value()
     |> foreign_key_constraint(:user_id)
   end
 
-  defp validate_debit_credit(changeset) do
-    debit = get_field(changeset, :debit)
-    credit = get_field(changeset, :credit)
+  defp validate_balance_value(changeset) do
+    balance =
+      changeset
+      |> get_field(:balance)
+      |> Money.cast_decimal()
+
+    cond do
+      is_nil(balance) ->
+        "Balance must me numeric string."
+
+      Decimal.compare(balance, 0) == :lt ->
+        "Balance must be equal or greater than 0"
+
+      true ->
+        changeset
+    end
+  end
+
+  defp validate_debit_credit_value(changeset) do
+    debit =
+      changeset
+      |> get_field(:debit)
+      |> Money.cast_decimal()
+
+    credit =
+      changeset
+      |> get_field(:credit)
+      |> Money.cast_decimal()
 
     cond do
       is_nil(debit) and is_nil(credit) ->
-        add_error(changeset, :base, "debit or credit must be provided")
+        add_error(changeset, :base, "debit or credit must be numeric string")
 
       not is_nil(debit) and not is_nil(credit) ->
         add_error(changeset, :base, "only one of debit or credit must be provided")
 
-      is_nil(credit) and debit < 1 ->
+      debit and Decimal.compare(debit, 0) == :lt ->
         add_error(changeset, :debit, "Debit must be greater than 0")
 
-      is_nil(debit) and credit < 1 ->
+      credit and Decimal.compare(credit, 0) == :lt ->
         add_error(changeset, :credit, "Credit must be greater than 0")
 
       true ->

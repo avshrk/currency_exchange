@@ -13,7 +13,16 @@ defmodule CurrencyExchange.Application do
       {Absinthe.Subscription, CurrencyExchangeWeb.Endpoint},
       {Registry, keys: :unique, name: CurrencyExchange.Wallets.WalletRegistry},
       {DynamicSupervisor, strategy: :one_for_one, name: CurrencyExchange.Wallets.WalletSupervisor},
-      {Task, &CurrencyExchange.Wallets.WalletLoader.load_all/0}
+      {Registry, keys: :unique, name: CurrencyExchange.Currencies.CurrencyPairRegistry},
+      {DynamicSupervisor, strategy: :one_for_one, name: CurrencyExchange.Currencies.CurrencyPairSupervisor},
+      Supervisor.child_spec(
+        {Task, fn ->
+          CurrencyExchange.Wallets.WalletLoader.load_all()
+          CurrencyExchange.Currencies.CurrencyLoader.load_currency_pairs()
+        end},
+        id: :startup_loader
+      ),
+  {CurrencyExchange.Currencies.CurrencyFetcherService, CurrencyExchange.Currencies.all_pairs() }
     ]
 
     opts = [strategy: :one_for_one, name: CurrencyExchange.Supervisor]

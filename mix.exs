@@ -16,7 +16,7 @@ defmodule CurrencyExchange.MixProject do
 
   def application do
     [ mod: {CurrencyExchange.Application, []},
-      extra_applications: [:logger, :runtime_tools] ]
+      extra_applications: [:logger, :observer,:wx, :runtime_tools] ]
   end
 
   def cli do
@@ -32,11 +32,13 @@ defmodule CurrencyExchange.MixProject do
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13"},
       {:postgrex, ">= 0.0.0"},
+      {:decimal, "~> 2.1"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:absinthe, "~> 1.7"},
       {:absinthe_phoenix, "~> 2.0"},
       {:absinthe_plug, "~> 1.5"},
+      {:req, "~> 0.5.0"},
       {:bandit, "~> 1.5"}
     ]
   end

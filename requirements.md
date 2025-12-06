@@ -10,7 +10,7 @@
 [x] Deposit Money
 
 ### Subscriptions
-[ ] Total Worth change by user
+[ ] Total Worth change by user ( credit/ debit )
 [ ] Exchange rate updated by specific currency
 [ ] Exchange rate updated for all currencies that user has 
 

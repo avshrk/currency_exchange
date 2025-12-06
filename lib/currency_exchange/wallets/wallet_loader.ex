@@ -12,10 +12,7 @@ defmodule CurrencyExchange.Wallets.WalletLoader do
   end
 
   def create_user_wallets(users) do
-    Enum.each(
-      users,
-      fn user -> Wallets.create(user.id)
-    end)
+    Enum.each( users, &Wallets.create(&1.id))
   end
 
   def load_user_wallets(users) do

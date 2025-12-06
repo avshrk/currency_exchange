@@ -33,6 +33,9 @@ config :phoenix, :json_library, Jason
 config :currency_exchange,
   currencies: ["AUD","CAD","EUR","GBP", "USD"]
 
+config :currency_exchange,
+  fetch_url: "http://localhost:4001/query?function=CURRENCY_EXCHANGE_RATE"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

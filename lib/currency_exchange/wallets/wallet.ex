@@ -28,7 +28,10 @@ defmodule CurrencyExchange.Wallets.Wallet do
   end
 
   def highest_amount_currency(user_id) do
-    Agent.get(via(user_id), &Enum.max_by(&1, fn {_k, v } -> v end ))
+    case empty?(user_id) do
+      true -> nil
+      _ -> Agent.get(via(user_id), &Enum.max_by(&1, fn {_k, v } -> v end ))
+    end
   end
 
   def all_currencies(user_id) do
