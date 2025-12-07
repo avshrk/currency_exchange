@@ -15,11 +15,13 @@ defmodule CurrencyExchange.Currencies.CurrencyFetcher do
       to_currency: to_cur
     }
 
-    Req.get(url: url(), params: params)
-    |> handle_response()
+    Req.get(url: url(), params: params, max_retries: 6)
+    |> handle_response(params)
   end
 
-  def handle_response({:error, error_data }), do: error_data
+  def handle_response({:error, error_data }, params) do
+    {:error, error_data, params: params }
+      end
 
   def handle_response({ :ok,
     %Req.Response{
@@ -27,7 +29,7 @@ defmodule CurrencyExchange.Currencies.CurrencyFetcher do
         "Realtime Currency Exchange Rate" => %{ "5. Exchange Rate" => rate }
       }
     }
-  }) do
+  }, _params) do
       rate
   end
 

@@ -1,11 +1,10 @@
 defmodule CurrencyExchange.Currencies.CurrencyFetcherService do
   use GenServer
 
-  alias CurrencyExchange.Currencies
   alias CurrencyExchange.Currencies.CurrencyLoader
 
-  @interval :timer.seconds(10)
-  @short_interval :timer.seconds(4)
+  @interval :timer.seconds(15)
+  @short_interval :timer.seconds(1)
   @name __MODULE__
 
   def start_link(cur_pairs) do
@@ -29,6 +28,7 @@ defmodule CurrencyExchange.Currencies.CurrencyFetcherService do
     Enum.each(cur_pairs, fn cur_pair ->
       Task.start(CurrencyLoader, :update_currency_pair, [cur_pair ])
     end)
+    IO.inspect("-------------------------")
   end
 
   defp schedule_fetch(interval \\ @interval ) do

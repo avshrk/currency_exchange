@@ -1,7 +1,6 @@
 defmodule CurrencyExchange.Wallets do
+
   alias CurrencyExchange.Wallets.Wallet
-  alias CurrencyExchange.Wallets
-  alias CurrencyExchange.Transactions
   alias CurrencyExchange.Wallets.WalletSupervisor
   alias CurrencyExchange.Currencies
 

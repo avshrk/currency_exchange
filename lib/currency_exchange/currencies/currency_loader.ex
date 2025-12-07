@@ -6,7 +6,6 @@ defmodule CurrencyExchange.Currencies.CurrencyLoader do
   def load_currency_pairs() do
     currency_pairs = Currencies.all_pairs()
     Enum.each(currency_pairs, &Currencies.create/1)
-    # Enum.each(currency_pairs, &update_currency_pair/1)
   end
 
   def update_currency_pair(cur_pair) do

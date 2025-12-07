@@ -1,0 +1,88 @@
+lib/currency_exchange/currencies.ex
+  def list_all() do
+  def convert(from_cur, to_cur, amount) do
+  def get_rate(from_cur, to_cur) do
+  def build_pair(from_cur, to_cur), do: "#{from_cur}/#{to_cur}"
+  def all_pairs() do
+  def create(cur_pair) do
+
+lib/currency_exchange/transactions.ex
+  def all_currency_balances_by_user(user_id) do
+  def create_deposit(user_id, currency, amount) do
+  def create_transfer(from_user_id, to_user_id, currency, amount) do
+  def build_changeset(
+
+lib/currency_exchange/wallets.ex
+  def currencies_by_user(user_id) do
+  def balance_by_currency(user_id, currency) do
+  def all_balances(user_id) do
+  def update({:error, _} = error, _user_id, _currency, _amount), do: error
+  def update({:ok, _}, user_id, currency, amount) do
+  def update(user_id, currency, amount) do
+  def currency_to_convert(user_id) do
+  def total_value_by_currency(user_id, to_currency) do
+  def to_wallet(user_id, currency, amount) do
+  def create(user_id) do
+
+lib/currency_exchange/currencies/currency_fetcher.ex
+  def fetch_rate(cur_pair) do
+  def fetch_rate(from_cur, to_cur) do
+  def handle_response({:error, error_data }), do: error_data
+  def handle_response({ :ok,
+  def url do
+
+lib/currency_exchange/accounts.ex
+  def list_users do
+  def get_user(id), do: Repo.get(User, id)
+  def create_user(attrs) do
+
+lib/currency_exchange/money.ex
+  def convert_amount(amount, rate) do
+  def compare(amount_a, amount_b) do
+  def calculate_amount(from_amount, to_amount, type) do
+  def round_and_convert_string(amount) do
+  def cast_decimal(vals) when is_list(vals) do
+  def cast_decimal(val) do
+
+GenServer
+lib/currency_exchange/currencies/currency_fetcher_service.ex
+  def start_link(cur_pairs) do
+  def init(cur_pairs) do
+  def handle_info(:fetch_rates, cur_pairs) do
+
+Agents:
+lib/currency_exchange/wallets/wallet.ex
+  def start_link(user_id) do
+  def upsert(user_id, currency, amount) do
+  def all(user_id) do
+  def by_currency(user_id, currency) do
+  def currency_exists?(user_id, currency) do
+  def empty?(user_id) do
+  def highest_amount_currency(user_id) do
+  def all_currencies(user_id) do
+  def user_exists?(user_id) do
+
+lib/currency_exchange/currencies/currency_pair.ex
+  def start_link(cur_pair) do
+  def set(cur_pair, amount) do
+  def value(cur_pair) do
+  def update(cur_pair, amount) do
+  def pair_exists?(cur_pair) do
+
+
+Loader Files:
+lib/currency_exchange/wallets/wallet_loader.ex
+  def load_all() do
+  def create_user_wallets(users) do
+  def load_user_wallets(users) do
+lib/currency_exchange/currencies/currency_loader.ex
+  def load_currency_pairs() do
+  def update_currency_pair(cur_pair) do
+
+
+Schema Files
+lib/currency_exchange/transactions/transaction.ex
+  def changeset(transaction, attrs) do
+
+lib/currency_exchange/accounts/user.ex
+  def changeset(user, attrs) do

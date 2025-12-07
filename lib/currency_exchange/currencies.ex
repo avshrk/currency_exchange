@@ -2,10 +2,8 @@ defmodule CurrencyExchange.Currencies do
   @app :currency_exchange
   @config_key :currencies
 
-  alias CurrencyExchange.Currencies.CurrencyPairRegistry
   alias CurrencyExchange.Currencies.CurrencyPairSupervisor
   alias CurrencyExchange.Currencies.CurrencyPair
-  alias CurrencyExchange.Transactions
   alias CurrencyExchange.Money
 
   def list_all() do
