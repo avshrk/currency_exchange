@@ -21,7 +21,7 @@ defmodule CurrencyExchange.Currencies.CurrencyFetcher do
 
   def handle_response({:error, error_data }, params) do
     {:error, error_data, params: params }
-      end
+  end
 
   def handle_response({ :ok,
     %Req.Response{
@@ -30,7 +30,7 @@ defmodule CurrencyExchange.Currencies.CurrencyFetcher do
       }
     }
   }, _params) do
-      rate
+    rate
   end
 
   def url do
