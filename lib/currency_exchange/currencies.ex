@@ -1,6 +1,4 @@
 defmodule CurrencyExchange.Currencies do
-  @app :currency_exchange
-  @config_key :currencies
 
   alias CurrencyExchange.Currencies.CurrencyPairRegistry
   alias CurrencyExchange.Currencies.CurrencyPairSupervisor
@@ -9,7 +7,7 @@ defmodule CurrencyExchange.Currencies do
   alias CurrencyExchange.Money
 
   def list_all() do
-    Application.get_env(@app, @config_key, [])
+    Application.get_env(:currency_exchange, :currencies, [])
   end
 
   def convert(from_cur, to_cur, amount) do

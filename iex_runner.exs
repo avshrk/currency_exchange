@@ -13,7 +13,7 @@ alias CurrencyExchange.Wallets.Wallet
 #  9 | Ernest | ernest@email.com | 2025-12-04 20:12:10
 
 
-
+Wallets.wallet_balances
 # Transactions.currency_balance_by_user(2, "CAD")
 
 #CurrencyExchange.Wallets.Wallet.start_link(7)
