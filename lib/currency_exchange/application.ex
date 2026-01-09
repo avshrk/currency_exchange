@@ -15,14 +15,25 @@ defmodule CurrencyExchange.Application do
       {DynamicSupervisor, strategy: :one_for_one, name: CurrencyExchange.Wallets.WalletSupervisor},
       {Registry, keys: :unique, name: CurrencyExchange.Currencies.CurrencyPairRegistry},
       {DynamicSupervisor, strategy: :one_for_one, name: CurrencyExchange.Currencies.CurrencyPairSupervisor},
-      Supervisor.child_spec(
-        {Task, fn ->
-          CurrencyExchange.Wallets.WalletLoader.load_all()
-          CurrencyExchange.Currencies.CurrencyLoader.load_currency_pairs()
-        end},
-        id: :startup_loader
-      ),
-  {CurrencyExchange.Currencies.CurrencyFetcherService, CurrencyExchange.Currencies.all_pairs() }
+      %{
+          id: :wallet_loader,
+          start: {Task, :start_link, [fn ->
+            CurrencyExchange.Wallets.WalletLoader.load_all()
+          end]},
+          restart: :transient,
+          shutdown: 30_000,
+          type: :worker
+      },
+      %{
+          id: :currency_loader,
+          start: {Task, :start_link, [fn ->
+            CurrencyExchange.Currencies.CurrencyLoader.load_currency_pairs()
+          end]},
+          restart: :transient,
+          shutdown: 30_000,
+          type: :worker
+      },
+      {CurrencyExchange.Currencies.CurrencyFetcherService, CurrencyExchange.Currencies.all_pairs() }
     ]
 
     opts = [strategy: :one_for_one, name: CurrencyExchange.Supervisor]
