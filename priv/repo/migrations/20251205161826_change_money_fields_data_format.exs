@@ -7,6 +7,5 @@ defmodule CurrencyExchange.Repo.Migrations.ChangeMoneyFieldsDataFormat do
       modify :credit, :string
       modify :balance, :string
     end
-
   end
 end
