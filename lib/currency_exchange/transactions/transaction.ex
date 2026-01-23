@@ -3,8 +3,8 @@ defmodule CurrencyExchange.Transactions.Transaction do
   import Ecto.Changeset
 
   alias CurrencyExchange.Accounts.User
-  alias CurrencyExchange.Transactions.Transaction
   alias CurrencyExchange.Currencies
+  alias CurrencyExchange.Money
 
   schema "transactions" do
     field :currency, :string

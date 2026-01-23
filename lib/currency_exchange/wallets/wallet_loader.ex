@@ -2,7 +2,6 @@ defmodule CurrencyExchange.Wallets.WalletLoader do
 
   alias CurrencyExchange.Accounts
   alias CurrencyExchange.Wallets
-  alias CurrencyExchange.Wallets.Wallet
   alias CurrencyExchange.Transactions
 
   def load_all() do

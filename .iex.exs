@@ -1,11 +1,15 @@
-alias CurrencyExchange.Accounts, as: Accnts
-alias CurrencyExchange.Accounts.Account, as: Accnt
-alias CurrencyExchange.Currencies, as: Curr
-alias CurrencyExchange.Transactions, as: Trans
-alias CurrencyExchange.Transactions.Transaction, as: Tran
+alias CurrencyExchange.Accounts
+alias CurrencyExchange.Accounts.User
+alias CurrencyExchange.Accounts.Account
+alias CurrencyExchange.Currencies
+alias CurrencyExchange.Transactions
+alias CurrencyExchange.Transactions.Transaction
 alias CurrencyExchange.Wallets.Wallet
+alias CurrencyExchange.Wallets.WalletLoader
 alias CurrencyExchange.Wallets
 alias CurrencyExchange.Currencies.CurrencyPair
 alias CurrencyExchange.Currencies.CurrencyFetcher
+alias CurrencyExchange.Currencies.Currency_fetcher_service
 alias CurrencyExchange.Currencies.CurrencyLoader
 alias CurrencyExchange.Currencies
+alias CurrencyExchange.Money
