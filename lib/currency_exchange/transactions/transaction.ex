@@ -8,9 +8,9 @@ defmodule CurrencyExchange.Transactions.Transaction do
 
   schema "transactions" do
     field :currency, :string
-    field :debit, :string
-    field :credit, :string
-    field :balance, :string
+    field :debit, :decimal
+    field :credit, :decimal
+    field :balance, :decimal
     field :event_id, :string
 
     belongs_to :user, User

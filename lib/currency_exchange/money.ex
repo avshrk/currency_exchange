@@ -38,7 +38,7 @@ defmodule CurrencyExchange.Money do
   def cast_decimal(val) do
     case Decimal.cast(val) do
       :error -> nil
-      {:ok, _} -> val
+      {:ok, val} -> val
     end
   end
 end
